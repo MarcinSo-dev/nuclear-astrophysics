@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import skewnorm, cauchy
 import matplotlib.pyplot as plt
-from scipy.integrate import simps
+from scipy.integrate import simpson as simps
 
 def generate_normalized_lorentzian_data(E, E0, Gamma, beam_energy, Qvalue, num_samples=10000):
     # Generate random data from the Lorentzian distribution using the Cauchy distribution
@@ -92,6 +92,7 @@ plt.xlabel('Energy (MeV)')
 plt.ylabel('Normalized Probability Density (multiplied by Beam Energy)')
 plt.title('Energy in CMS distribution (16O)')
 plt.xlim(2.6, 2.8)
+plt.savefig('plot', dpi=500)
 plt.show()
 
 plt.plot(C_bin_edges[:-1], C_hist, label="C Resonance")
@@ -260,6 +261,7 @@ plt.xlabel('Energy (MeV)')
 plt.ylabel('Normalized Probability Density (multiplied by Beam Energy)')
 plt.title('C12 reaction nuclei energies with Gaussian Fit')
 plt.xlim(0.7, 0.8)
+plt.savefig('16O_energies.png', dpi=500)
 plt.show()
 
 plt.plot(C_reaction_alpha_mass, multiplied_hist_adjusted, label="12C reaction 8Be energy")
@@ -269,4 +271,5 @@ plt.xlabel('Energy (MeV)')
 plt.ylabel('Normalized Probability Density (multiplied by Beam Energy)')
 plt.title('C12 reaction nuclei energies with Gaussian Fit')
 plt.xlim(1.5, 1.6)
+plt.savefig('C12_energies.png', dpi=500)
 plt.show()
