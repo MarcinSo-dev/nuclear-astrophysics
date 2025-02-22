@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "create_data.C": "cpp"
+        "create_data.C": "cpp",
+        "import_data_from_txt.C": "cpp",
+        "display_data.C": "cpp",
+        "display_data_from_root.C": "cpp",
+        "iostream": "cpp",
+        "energy_level_schemes.C": "cpp",
+        "NuclearEnergyLevelsTwo.C": "cpp"
     }
 }

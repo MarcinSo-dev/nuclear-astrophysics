@@ -6,7 +6,7 @@
 #include <vector>
 #include <sstream>
 
-void create_data() {
+void import_data_from_txt() {
     // Create and open the ROOT file
     TFile *file = new TFile("beam_intensity.root", "RECREATE");
 
@@ -60,9 +60,14 @@ void create_data() {
         std::cerr << "Error: Cannot open cross_section.txt!" << std::endl;
         return;
     }
+    
+    // Skip the first row
+    std::string dummyLine;
+    std::getline(infile, dummyLine);
 
     while (infile >> E >> sigma >> Dsigma) {
         crossSectionTree->Fill();
+
     }
     infile.close();
 
