@@ -1,6 +1,10 @@
 #include <TFile.h>
 #include <TTree.h>
 #include <TDirectory.h>
+#include <fstream>
+#include <iostream>
+#include <vector>
+#include <sstream>
 
 void create_data() {
     // Create and open the ROOT file
@@ -13,30 +17,30 @@ void create_data() {
     // Create a TTree for constants
     TTree *constantsTree = new TTree("constants", "Experimental Constants");
 
-    // Define and store only necessary constants
-    double S_n = 6.512;   // Threshold energy (MeV)
-    double N_A = 6.023e23;  // Avogadro's number (atoms/mol)
-    double A = 197;   // Atomic mass (gold)
-    double rho = 19.283;  // Density (g/cm^3)
-    double x = 25.4e-4;   // Sample thickness (cm)
-    double t_IRR = 59 * 60;  // Irradiation time (s)
-    double t_delay = 19 * 60;  // Delay time (s)
-    double t_measurement = 12 * 3600;  // Measurement time (s)
-    double half_life = 6.1669 * 24 * 3600;  // Half-life (s)
+    // Define variables
+    std::string name;
+    double value;
 
-    // Store only these in the ROOT file
-    constantsTree->Branch("S_n", &S_n, "S_n/D");
-    constantsTree->Branch("N_A", &N_A, "N_A/D");
-    constantsTree->Branch("A", &A, "A/D");
-    constantsTree->Branch("rho", &rho, "rho/D");
-    constantsTree->Branch("x", &x, "x/D");
-    constantsTree->Branch("t_IRR", &t_IRR, "t_IRR/D");
-    constantsTree->Branch("t_delay", &t_delay, "t_delay/D");
-    constantsTree->Branch("t_measurement", &t_measurement, "t_measurement/D");
-    constantsTree->Branch("half_life", &half_life, "half_life/D");
+    // Set branches
+    constantsTree->Branch("name", &name);
+    constantsTree->Branch("value", &value, "value/D");
 
-    // Fill tree with a single entry
-    constantsTree->Fill();
+    // Load constants from file
+    std::ifstream constFile("constants.txt");
+    if (!constFile) {
+        std::cerr << "Error: Cannot open constants.txt!" << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(constFile, line)) {
+        std::istringstream iss(line);
+        iss >> name >> value; // Read name and value
+        constantsTree->Fill();
+    }
+    constFile.close();
+
+    // Write constants data to ROOT file
     constantsTree->Write();
 
     // Create a TTree for cross-section data
